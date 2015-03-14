@@ -1,8 +1,5 @@
-//Draw a box, allow addition of new players.
-console.log("playerBoard.js...");
+var allPlayers = ["Null"];
 
-var allPlayers = [];
-var testName = ["x0", "x2", "x3", "x4"];
 
 var createNewPlayer = function(name){
   var newPlayer = {
@@ -13,35 +10,60 @@ var createNewPlayer = function(name){
   }
   allPlayers.push(newPlayer);
 }
+//Draw a box, allow addition of new players.
 
-// var playerBoard = d3.selectAll('.bigboard')
-//   .data([0]).enter().append('div')
-//   .attr('class', 'playerBoard')
-//   .attr( 'width', 170 )
-//   .attr( 'height', settings.height + 6 );
+var testPlayers = [];
+var createTestNewPlayer = function(name){
+  var newPlayer = {
+    name: name,
+    tokens: [],
+    tokenCount : 0,
+    bid: ""
+  }
+  testPlayers.push(newPlayer);
+}
 
-// startBoard
-//   .attr('width', 170*2);
+for (var i = 0; i < 4; i++){
+  createTestNewPlayer("Bob"+i);
+}
 
-/**
- * function(param1, param2){
- * param1 = element, or d
- * param2 = index, or i 
- * }
- */
-var stuff = startBoard.data(testName)
-  .enter()
-  .append('div')
-  .attr('id', function(d, i){return "player-"+i;})
-  .text(function(d,i){return d+""})
-  .attr('x', 175+'px')
-  .append('input')
-  .attr('value', 'Bid Here');
-  // .append('button')
-  // .val('Enter Bid');
 
-console.log('stuff', stuff);
-// startBoard.data(testName)
+var drawPlayers = function(){
+  var lol = d3.selectAll('.playerDisplay')
+    .remove();
+
+  var playerDivs = startBoard.data(testPlayers)
+    .enter()
+    .append('div')
+
+  playerDivs  
+    .attr('id', function(d, i){return "player-"+i;})
+    .attr('class', 'playerDisplay')
+    .text(function(d,i){return d.name+""})
+    .attr('x', 175+'px')
+    .append('input')
+    .attr('value', 'Bid Here')
+    .on('mousedown', function(thing){
+      this.value = "";
+    });
+  playerDivs
+    .append('button')
+    .text('Make Bid')
+    .on('mousedown', function(e){
+      //find the input box, pull the value
+      // console.log(e);
+      console.log('bid received: ');
+    });
+  playerDivs
+    .append('br')
+  playerDivs
+    .append('div')
+    .text('currentscore, currentbid')
+}
+
+
+
+// startBoard.data(testPlayers)
 //   .enter()
 //   .append('input')
 //   .attr('id', function(d, i){return "player-"+i+"input";})
@@ -50,7 +72,7 @@ console.log('stuff', stuff);
 
 
   // $(document).ready(function(){
-  //   for (var i = 1; i < testName.length; i++){
+  //   for (var i = 1; i < testPlayers.length; i++){
   //     var playerDiv = $('#player-'+i);
   //     playerDiv.html('<input></input>');
   //     console.log(playerDiv);
@@ -67,4 +89,14 @@ console.log('stuff', stuff);
 //   .attr("y", 10+"px")
 //   .attr("font-size", 24+"px")
 
-console.log("allPlayers :", allPlayers);
+$(document).ready(function(){
+  drawPlayers();
+  $('#newPlayerBtn').on('mousedown', function(){
+    var nameText = $('#newPlayerTxt').val();
+    createNewPlayer(nameText);
+    drawPlayers();
+    //add new player,
+    //redraw new players...
+    //Player functionality: when a bid is placed, is updated in the STEPS box. Timer is started.
+  })
+});

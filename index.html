@@ -7,9 +7,11 @@
   </head>
   <body>
     <div id='topbar'>Fricochet Frobot</div>
+
     <div>Wendy Leung: 
       <a href='https://github.com/wendyleung/ricochet'> Github</a>
     </div>
+
 
     <div id='players'>
       <form name="playerForm">
@@ -26,16 +28,45 @@
     <script src='./client/sidebar.js'></script>
     <script src='./client/playerBoard.js'></script>
     <script>
-      $(document).ready(function(){
-        $('#newPlayerBtn').on('mousedown', function(){
-          var nameText = $('#newPlayerTxt').val();
-          createNewPlayer(nameText);
+      // initial modal
+      // vex.dialog.prompt({
+      //   message: 'Welcome to Fricochet Frobot! \n How many players?',
+      //   placeholder: "1",
+      //   callback: function(value){
+      //     var value = parseInt(value, 10);
+      //     for(var i = 0 ; i < value; i++){
+      //       createNewPlayer("Player"+i);
+      //     }
+      //     drawPlayers();
 
-          //add new player,
-          //redraw new players...
-          //Player functionality: when a bid is placed, is updated in the STEPS box. Timer is started.
-        })
-      });
+      //     vex.dialog.buttons.YES.text="Go!";
+      //     vex.dialog.open({
+      //       showClosebutton: false,
+      //       overlayClosesOnClick: true,
+      //       message: 'Get Ready!'
+      //     });
+      //   }
+      // });
+      //press s to start new game
+      //press n for next game
+    </script>
+
+    <script>
+    // $('#block-119')
+    // $('#block-119')
+    var centerText = d3.select('.board')
+      .append('text')
+      .attr('id', 'mainToken')
+      .attr('x', 280)
+      .attr('y', 325)
+      .attr('font-size', '64px')
+      .html('&#10052;')
+      .attr('fill', 'red');
+
+    var updateTarget = function(){
+      
+      centerText.html()
+    }
     </script>
 
   </body>
