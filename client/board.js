@@ -247,6 +247,7 @@ function updateTopBot(data, TorB){
 var gameStarted = false;
 d3.select("body")
   .on("keydown", function() {
+    console.log('keydown received');
     var key = d3.event.keyCode
     if( moving === false && currentObject !== null && gameStarted){
       if( key === 37 ){
@@ -275,9 +276,11 @@ d3.select("body")
 
 
 // initial modal
-// vex.dialog.open({
-//   message: 'press s to start new game\n' +
-//     'press n for next game'    
-// });
+vex.dialog.open({
+  message: "Welcome to Ricochet Robots",
+  callback: function(){
+    newGame();
+  }
+});
 //press s to start new game
 //press n for next game

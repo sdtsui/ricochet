@@ -23,10 +23,12 @@ var createTestNewPlayer = function(name){
   testPlayers.push(newPlayer);
 }
 
-for (var i = 0; i < 4; i++){
-  createTestNewPlayer("Bob"+i);
-}
-
+// for (var i = 0; i < 4; i++){
+//   createTestNewPlayer("Bob"+i);
+// }
+createTestNewPlayer("Space");
+createTestNewPlayer("Axel");
+createTestNewPlayer("Dan");
 
 var drawPlayers = function(){
   d3.selectAll('.playerDisplay')
