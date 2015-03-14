@@ -1,3 +1,4 @@
+var suspect;
 var allPlayers = ["Null"];
 
 var createNewPlayer = function(name){
@@ -5,7 +6,7 @@ var createNewPlayer = function(name){
     name: name,
     tokens: [],
     tokenCount : 0,
-    bid: ""
+    bid: "-"
   }
   allPlayers.push(newPlayer);
 }
@@ -28,7 +29,7 @@ for (var i = 0; i < 4; i++){
 
 
 var drawPlayers = function(){
-  var lol = d3.selectAll('.playerDisplay')
+  d3.selectAll('.playerDisplay')
     .remove();
 
   var playerDivs = startBoard.data(testPlayers)
@@ -40,26 +41,40 @@ var drawPlayers = function(){
     .attr('class', 'playerDisplay')
     .text(function(d,i){return d.name+""})
     .attr('x', 175+'px')
-    // .attr('font-size', '24px')
-    // .attr('font-color', 'white')
     .append('input')
+    .attr('id', function(d, i){return "playerBidBox-"+d.name})
     .attr('value', 'Bid Here')
-    .on('mousedown', function(thing){
+    .on('mousedown', function(){
       this.value = "";
     });
   playerDivs
     .append('button')
     .text('Make Bid')
-    .on('mousedown', function(e){
+    .on('mousedown', function(d){
       //find the input box, pull the value
-      // console.log(e);
-      console.log('bid received: ');
+      var bidValue = $('#playerBidBox-'+d.name).val();
+      d.bid = bidValue;
+      enqueueBid(makeNewBid(bidValue, d.name));
+      console.log("BidQueue: ",bidQueue);
+
+      //redraw, and click on timer
+      placeBidTimeHandler();
+      drawPlayers();
     });
   playerDivs
-    .append('br')
+    .append('br');
   playerDivs
     .append('text')
-    .html('currentscore, currentbid')
+    .html(function(d,i){
+      return "Tokens : " +d.tokenCount;
+    });
+  playerDivs
+    .append('br');
+  playerDivs
+    .append('text')
+    .html(function(d,i){
+      return 'Current Bid: '+ d.bid;
+    });
 }
 
 
@@ -91,6 +106,9 @@ var drawPlayers = function(){
 //   .attr("font-size", 24+"px")
 
 $(document).ready(function(){
+  //Assign a new target
+  target = getTarget();
+  moveTokenCurrentBox();
   //Draw Players
   drawPlayers();
   $('#newPlayerBtn').on('mousedown', function(){
@@ -110,6 +128,6 @@ $(document).ready(function(){
   .attr('x', 278)
   .attr('y', 326)
   .attr('font-size', '64px')
-  .html('&#10052;')
-  .attr('fill', 'orange');
+  .html(target[0][2])
+  .attr('fill', target[0][3]);
 });

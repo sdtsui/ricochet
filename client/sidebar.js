@@ -1,3 +1,8 @@
+var timer_started = false;
+/**
+ * 
+ */
+
 var target;
 var steps = 0;
 
@@ -65,27 +70,33 @@ var timerText = startBoard.selectAll('.startBoard')
   .on("mouseleave", function(){
     d3.selectAll(".timerText").attr('fill', 'white')
   })
-  .on('click', function(d){
-    if( !interval ){
-      interval = setInterval(function(){
-        timer -= 1;
-        if( timer < 10 ){
-          d3.select('#timerText-1').transition().duration(50).attr("x", 64);
-        }
-        d3.select("#timerText-1").text(timer);
-        if( timer <= 0 ){
-          clearInterval(interval);
-        }
-      }, 1000)
-    } else {
-      clearInterval(interval);
-      interval = false;
-      timer = 60
-      d3.select('#timerText-1').transition().duration(50).attr("x", 49)
-      d3.select("#timerText-1").text(timer);
-    }
+  .on('click', function(){
+    startTimer();
   })
 
+//Factored out startTimer function, so it can be called elsewhere:
+var startTimer = function(){
+  if( !interval ){
+    interval = setInterval(function(){
+      timer -= 1;
+      if( timer < 10 ){
+        d3.select('#timerText-1').transition().duration(50).attr("x", 64);
+      }
+      d3.select("#timerText-1").text(timer);
+      if( timer <= 0 ){
+        console.log("start win logic here");
+        requestMove();
+        clearInterval(interval);
+      }
+    }, 1000)
+  } else {
+    clearInterval(interval);
+    interval = false;
+    timer = 60
+    d3.select('#timerText-1').transition().duration(50).attr("x", 49)
+    d3.select("#timerText-1").text(timer);
+  }
+};
 
 var stepsBox = startBoard.selectAll('.startBoard')
   .data([0]).enter().append('rect')
@@ -200,6 +211,107 @@ var nextText = startBoard.selectAll('.startBoard')
     restartPlayers();
   })
 
+
+  /**
+   * Add : skip box, skip text.
+   */
+var skipBox = startBoard.selectAll('.startBoard')
+  .data([0]).enter().append('rect')
+  .attr('class', 'skipBox')
+  .attr({
+    'x': 10,
+    'y': 485,
+    'rx': 5,
+    'ry': 5,
+    'width': 150,
+    'height': 50,
+  })
+
+var skipText = startBoard.selectAll('.startBoard')
+  .data(["Move Now"]).enter().append('text')
+  .attr('class', 'skipText')
+  .text(function(d){ return d })
+  .attr("x", 29)
+  .attr("y", 516)
+  .attr("font-size", "23px")
+  .attr("fill", "white")
+  .on("mouseover", function(){
+    d3.select(this).attr("fill", "green")
+  })
+  .on("mouseleave", function(){
+    d3.select(this).attr('fill', 'white')
+  })
+  .on("click", function(){
+    console.log('timer=0');
+    timer=0;
+  })
+   /**
+    * Add: Success/Fail Boxes
+    */
+var successBox = startBoard.selectAll('.startBoard')
+  .data([0]).enter().append('rect')
+  .attr('class', 'successBox')
+  .attr({
+    'x': 10,
+    'y': 540,
+    'rx': 5,
+    'ry': 5,
+    'width': 72,
+    'height': 50,
+  })
+
+var successText = startBoard.selectAll('.startBoard')
+  .data(["Win!"]).enter().append('text')
+  .attr('class', 'successText')
+  .text(function(d){ return d })
+  .attr("x", 23)
+  .attr("y", 570)
+  .attr("font-size", "23px")
+  .attr("fill", "white")
+  .on("mouseover", function(){
+    d3.select(this).attr("fill", "green")
+  })
+  .on("mouseleave", function(){
+    d3.select(this).attr('fill', 'white')
+  })
+  .on("click", function(){
+    moveSuccess();
+  })
+
+
+   /**
+    * Add: fail box, fail text.
+    */
+var failBox = startBoard.selectAll('.startBoard')
+  .data([0]).enter().append('rect')
+  .attr('class', 'failBox')
+  .attr({
+    'x': 85,
+    'y': 540,
+    'rx': 5,
+    'ry': 5,
+    'width': 72,
+    'height': 50,
+  })
+
+var failText = startBoard.selectAll('.startBoard')
+  .data(["Fail!"]).enter().append('text')
+  .attr('class', 'failText')
+  .text(function(d){ return d })
+  .attr("x", 98)
+  .attr("y", 570)
+  .attr("font-size", "23px")
+  .attr("fill", "white")
+  .on("mouseover", function(){
+    d3.select(this).attr("fill", "green")
+  })
+  .on("mouseleave", function(){
+    d3.select(this).attr('fill', 'white')
+  })
+  .on("click", function(){
+    moveFailure();
+  })
+
 var updateSteps = function(){
   d3.select('#stepsText-1').attr("fill", "white");  
   if( steps === 0 ){
@@ -216,6 +328,8 @@ var updateSteps = function(){
 }
 
 var newGame = function(){
+  timer_started=false;
+  //add/\
   gameStarted = true;
   steps = 0;
   moving = false;
@@ -228,7 +342,11 @@ var newGame = function(){
   moveTokenCurrentBox();
 }
 
+//Dear Wendy. This was buggy. Hacked a fix on 108 of playerBoard.js
 var nextRound = function(){
+  timer_started=false;
+  //add/\
+  console.log(target);
   d3.select("#token-" + target[0][4]).attr('class','endtarget')
   steps = 0;
   updateSteps();
