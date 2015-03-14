@@ -1,7 +1,6 @@
 var currentObject = null;
 vex.defaultOptions.className = 'vex-theme-os';
 
-
 //Creates SVG Body
 var bigboard = d3.selectAll('#board')
   .append('svg')
