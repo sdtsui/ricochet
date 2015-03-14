@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel='stylesheet' type='css' href='style.css'> 
-    <link rel="stylesheet" href="vex.css" />
-    <link rel="stylesheet" href="vex-theme-os.css" />
+    <link rel='stylesheet' type='css' href='./client/style.css'> 
+    <link rel="stylesheet" href="./client/vex.css" />
+    <link rel="stylesheet" href="./client/vex-theme-os.css" />
   </head>
   <body>
     <div id='topbar'>Fricochet Frobot</div>
     <div>Wendy Leung: 
       <a href='https://github.com/wendyleung/ricochet'> Github</a>
     </div>
-    
+
+    <div id='players'>
+      <form name="playerForm">
+          <input id="newPlayerBtn" type="button" value="Add Player" />
+          <input id="newPlayerTxt" type="text" id="myVal"/>
+      </form>      
+    </div>
     <div id='board'></div>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="vex.combined.min.js"></script>
-    <script src="d3.js" charset="utf-8"></script>
-    <script src='data.js'></script>
-    <script src='board.js'></script>
-    <script src='sidebar.js'></script>
+    <script src="./client/vex.combined.min.js"></script>
+    <script src="./client/d3.js" charset="utf-8"></script>
+    <script src='./client/data.js'></script>
+    <script src='./client/board.js'></script>
+    <script src='./client/sidebar.js'></script>
+    <script src='./client/playerBoard.js'></script>
+    <script>
+      $(document).ready(function(){
+        $('#newPlayerBtn').on('mousedown', function(){
+          var nameText = $('#newPlayerTxt').val();
+          createNewPlayer(nameText);
+
+          //add new player,
+          //redraw new players...
+          //Player functionality: when a bid is placed, is updated in the STEPS box. Timer is started.
+        })
+      });
+    </script>
+
   </body>
 </html>

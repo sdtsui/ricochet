@@ -275,9 +275,9 @@ d3.select("body")
 
 
 // initial modal
-vex.dialog.open({
-  message: 'press s to start new game\n' +
-    'press n for next game'    
-});
+// vex.dialog.open({
+//   message: 'press s to start new game\n' +
+//     'press n for next game'    
+// });
 //press s to start new game
 //press n for next game
