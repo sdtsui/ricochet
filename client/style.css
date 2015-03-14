@@ -74,3 +74,8 @@ body{
 ._line{
   fill: black;
 }
+
+.playerDisplay{
+  color: white;
+  font-size: 32px;
+}

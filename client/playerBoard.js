@@ -1,6 +1,5 @@
 var allPlayers = ["Null"];
 
-
 var createNewPlayer = function(name){
   var newPlayer = {
     name: name,
@@ -41,6 +40,8 @@ var drawPlayers = function(){
     .attr('class', 'playerDisplay')
     .text(function(d,i){return d.name+""})
     .attr('x', 175+'px')
+    // .attr('font-size', '24px')
+    // .attr('font-color', 'white')
     .append('input')
     .attr('value', 'Bid Here')
     .on('mousedown', function(thing){
@@ -57,8 +58,8 @@ var drawPlayers = function(){
   playerDivs
     .append('br')
   playerDivs
-    .append('div')
-    .text('currentscore, currentbid')
+    .append('text')
+    .html('currentscore, currentbid')
 }
 
 
@@ -90,6 +91,7 @@ var drawPlayers = function(){
 //   .attr("font-size", 24+"px")
 
 $(document).ready(function(){
+  //Draw Players
   drawPlayers();
   $('#newPlayerBtn').on('mousedown', function(){
     var nameText = $('#newPlayerTxt').val();
@@ -99,4 +101,15 @@ $(document).ready(function(){
     //redraw new players...
     //Player functionality: when a bid is placed, is updated in the STEPS box. Timer is started.
   })
+
+
+  //Add center token image:
+  var centerText = d3.select('.board')
+  .append('text')
+  .attr('id', 'mainToken')
+  .attr('x', 278)
+  .attr('y', 326)
+  .attr('font-size', '64px')
+  .html('&#10052;')
+  .attr('fill', 'orange');
 });

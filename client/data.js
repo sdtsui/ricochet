@@ -49,5 +49,10 @@ var copylandmark = landmark.slice();
 var getTarget = function(){
   var index = randomNumber(copylandmark.length);
   var target = copylandmark.splice(index, 1);
+
+  //updating center token. Please refactor.
+  d3.select('#mainToken')
+    .html(target[0][2])
+    .attr('fill',target[0][3]);
   return target;
 }
